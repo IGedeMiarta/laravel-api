@@ -113,9 +113,9 @@ class BuyerTrukController extends Controller
      * @param  \App\Models\BuyerTruk  $buyerTruk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BuyerTruk $buyerTruk)
+    public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

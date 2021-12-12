@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\BuyerTrukController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukSellerController;
+use App\Models\ProdukSeller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('/truk',BuyerTrukController::class);
 Route::resource('/kategori',KategoriController::class);
 Route::resource('/produk',ProdukController::class);
-Route::resource('/produk',ProdukController::class);
-Route::resource('/produk-seller',ProdukSellerController::class);
+Route::resource('/order',OrdersController::class);
+
+Route::get('/produk-seller/{id_seller}',[ProdukSellerController::class,'index']);
+Route::get('/produk-seller-get/{id_seller}/{id_produk}',[ProdukSellerController::class,'show']);

@@ -13,14 +13,22 @@ class ProdukSellerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $produks =  ProdukSeller::getAllProdukSeller();
-        $response = [
-            'messege' => 'Get Product Sellers',
-            'data' => $produks
-        ];
-        return response()->json($response,Response::HTTP_OK);
+        $produks =  ProdukSeller::where('id_seller',$id)->first();
+        if ($produks) {
+            $response = [
+                'messege' => 'Get Product Sellers',
+                'data' => ProdukSeller::getAllProdukBySeller($id)
+             ];
+            return response()->json($response,Response::HTTP_OK);
+
+        } else {
+            return response()->json([
+                'messege'=>'Data Not Found'
+            ],Response::HTTP_NOT_FOUND);
+        }
+        
     }
 
     /**
@@ -50,18 +58,26 @@ class ProdukSellerController extends Controller
      * @param  \App\Models\ProdukSeller  $produkSeller
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_seller,$id_produk)
     {
-        $produk = ProdukSeller::getAllProdukSellerWhereId($id);
-        if ($produk) {
-           $result = [
-                'messege'=>'Detail Produk Seller',
-                'data'=>$produk
-            ];
-            return response()->json($result,Response::HTTP_OK);
+        $cek =  ProdukSeller::where('id_seller',$id_seller)->first();
+        if ($cek) {
+            $produks = ProdukSeller::getAllProdukSellerWhereId($id_seller,$id_produk);
+            if ($produks) {
+                $result = [
+                    'messege'=>'Detail Produk Seller',
+                    'data'=>$produks
+                ];
+                return response()->json($result,Response::HTTP_OK);
+            } else {
+                return response()->json([
+                    'messege'=>"Product Not Found"
+                ],Response::HTTP_NOT_FOUND);
+            }
+            
         }else{
             return response()->json([
-                'messege'=>'Data Not Found'
+                'messege'=>"Seller doesn't have the product yet"
             ],Response::HTTP_NOT_FOUND);
         }
     }

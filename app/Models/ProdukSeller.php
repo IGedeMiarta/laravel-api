@@ -10,7 +10,7 @@ class ProdukSeller extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    public static function getAllProdukSeller(){
+    public static function getAllProdukBySeller($id_seller){
         return Seller::leftJoin('produk_sellers','produk_sellers.id_seller','=','sellers.id')
                             ->leftJoin('produks','produk_sellers.id_produk','=','produks.id')
                             ->leftJoin('kategoris','produks.id_kategori','=','kategoris.id')
@@ -29,10 +29,11 @@ class ProdukSeller extends Model
                                 'sellers.perusahaan AS nama_seller',
                                 'sellers.telp AS seller_phone'
                             )
+                            ->where('id_seller',$id_seller)
                             ->orderBy('produk_sellers.id')
                             ->get();
     }
-    public static function getAllProdukSellerWhereId($id){
+    public static function getAllProdukSellerWhereId($id_seller,$id_produk){
         return Seller::leftJoin('produk_sellers','produk_sellers.id_seller','=','sellers.id')
                             ->leftJoin('produks','produk_sellers.id_produk','=','produks.id')
                             ->leftJoin('kategoris','produks.id_kategori','=','kategoris.id')
@@ -51,9 +52,10 @@ class ProdukSeller extends Model
                                 'sellers.perusahaan AS nama_seller',
                                 'sellers.telp AS seller_phone'
                             )
-                            ->where('produk_sellers.id',$id)
+                            ->where('id_seller',$id_seller)
+                            ->where('produk_sellers.id',$id_produk)
                             ->orderBy('produk_sellers.id')
-                            ->get();
+                            ->first();
     }
 
 }
